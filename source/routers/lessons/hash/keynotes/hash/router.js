@@ -1,4 +1,4 @@
-export const getByHash = (req, res) => {
+export const getKeynoteByHash = (req, res) => {
     try {
         const data = {};
 
@@ -8,17 +8,7 @@ export const getByHash = (req, res) => {
     }
 };
 
-export const putByHash = (req, res) => {
-    try {
-        const data = {};
-
-        res.status(200).json({ data });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-
-export const deleteByHash = (req, res) => {
+export const deleteKeynoteByHash = (req, res) => {
     try {
         res.sendStatus(204);
     } catch (error) {

@@ -1,4 +1,4 @@
-export const post = (req, res) => {
+export const postKeynote = (req, res) => {
     try {
         res.sendStatus(204);
     } catch (error) {

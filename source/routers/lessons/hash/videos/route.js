@@ -1,4 +1,4 @@
-export const post = (req, res) => {
+export const postVideo = (req, res) => {
     try {
         res.sendStatus(204);
     } catch (error) {

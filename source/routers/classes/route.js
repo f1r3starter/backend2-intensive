@@ -20,7 +20,7 @@ export const post = (req, res) => {
 
 export const enroll = (req, res) => {
     try {
-        res.status(204);
+        res.sendStatus(204);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -28,7 +28,7 @@ export const enroll = (req, res) => {
 
 export const expel = (req, res) => {
     try {
-        res.status(204);
+        res.sendStatus(204);
     } catch (error) {
         res.status(400).json({message: error.message});
     }
