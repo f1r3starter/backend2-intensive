@@ -6,7 +6,9 @@ const winstonLogger = createLogger({
 });
 
 export const logger = (req, res, next) => {
-    if (process.env.NODE_ENV === 'DEV') {
+    const isDev = process.env.NODE_ENV === 'DEV';
+
+    if (isDev) {
         winstonLogger.debug({
             time:    Date().toString(),
             method:  req.method,
