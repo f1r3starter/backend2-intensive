@@ -7,12 +7,12 @@ const winstonLogger = createLogger({
         timestamp(),
         errors({ stack: false }),
     ),
-    transports: [ new transports.File({ filename: 'logs/errors.log', level: 'error' }) ],
+    transports: [ new transports.File({ filename: `${__dirname}/logs/errors.log`, level: 'error'} ) ],
 });
 
-export const errorHandler = (err, req, res) => {
+export const errorHandler = (err, req, res, next) => {
     const isTest = process.env.NODE_ENV === 'TEST';
-    
+
     if (!isTest) {
         winstonLogger.error(err);
     }
