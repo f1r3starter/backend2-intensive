@@ -1,11 +1,17 @@
 import { createLogger, transports, format } from 'winston';
-const { combine, timestamp, errors } = format;
+
+const { combine, timestamp, printf } = format;
+
+const myFormat = printf((error) => {
+    return `${error.timestamp} ${error.name}: ${error.message}`;
+});
 
 const winstonLogger = createLogger({
     level:  'error',
     format: combine(
+        format.splat(),
         timestamp(),
-        errors({ stack: false }),
+        myFormat,
     ),
     transports: [ new transports.File({ filename: `${__dirname}/logs/errors.log`, level: 'error'} ) ],
 });
