@@ -2,26 +2,51 @@ import { createLogger, transports, format } from 'winston';
 
 const { combine, timestamp, printf } = format;
 
-const myFormat = printf((error) => {
-    return `${error.timestamp} ${error.name}: ${error.message}`;
+const getDate = () => new Date().toISOString();
+
+const defaultLogFormat = printf(({message: { error }}) => {
+    return `${getDate()} ${error.name}: ${error.message}`;
 });
 
-const winstonLogger = createLogger({
+const notFoundErrorLogFormat = printf(({message: { req }}) => {
+    return `${getDate()} ${req.method}: ${req.url}`;
+});
+
+const validationErrorFormat = printf(({message: { error, req }}) => {
+    const payload = JSON.stringify(req.body);
+    const errors = JSON.stringify(error.message);
+
+    return `${getDate()} ${req.method}: ${req.url} ${errors} \r\n ${payload}`;
+});
+
+const prepareLogger = (customFormat, logFileName) => createLogger({
     level:  'error',
     format: combine(
         format.splat(),
         timestamp(),
-        myFormat,
+        customFormat,
     ),
-    transports: [ new transports.File({ filename: `${__dirname}/logs/errors.log`, level: 'error'} ) ],
+    transports: [ new transports.File({ filename: `${__dirname}/${logFileName}`, level: 'error'}) ],
 });
 
-export const errorHandler = (err, req, res, next) => {
+const winstonLogger = prepareLogger(defaultLogFormat, 'logs/errors.log');
+const notFoundLogger = prepareLogger(notFoundErrorLogFormat, 'logs/not_found_errors.log');
+const validationErrorLogger = prepareLogger(validationErrorFormat, 'logs/validation_errors.log');
+
+const loggerMap = {
+    NotFoundError:   notFoundLogger,
+    ValidationError: validationErrorLogger,
+    default:         winstonLogger,
+};
+
+export const errorHandler = (error, req, res, next) => {
     const isTest = process.env.NODE_ENV === 'TEST';
 
     if (!isTest) {
-        winstonLogger.error(err);
+        const logger = loggerMap[ error.constructor.name ] || loggerMap.default;
+
+        logger.error({error, req});
     }
 
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: error.message });
 };
