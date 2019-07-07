@@ -5,3 +5,4 @@ export { validator } from './validator';
 export { authorization } from './authorization';
 export { logger } from './logger';
 export { errorHandler } from './errorHandler';
+export { notFoundHandler } from './notFoundHandler';
