@@ -3,10 +3,10 @@ import express from 'express';
 
 // Instruments
 import { post } from './route';
-import { authorization } from '../../utils';
+import { authenticate } from '../../utils';
 
 const router = express.Router();
 
-router.post('/', [ authorization ], post);
+router.post('/', [ authenticate ], post);
 
 export { router as logout };
