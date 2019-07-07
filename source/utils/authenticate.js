@@ -1,11 +1,6 @@
-import { getPassword } from './env';
+import passport from 'passport';
 
-export const authenticate = (req, res, next) => {
-    const headerPassword = req.header('Authorization');
-
-    if (getPassword() === headerPassword && req.session.email) {
-        return next();
-    }
-
-    return res.sendStatus(401);
-};
+export const authenticate = passport.authenticate(
+    'jwt',
+    { session: false },
+);
