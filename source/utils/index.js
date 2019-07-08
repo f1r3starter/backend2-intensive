@@ -7,4 +7,4 @@ export { logger } from './logger';
 export { errorHandler } from './errorHandler';
 export { notFoundHandler } from './notFoundHandler';
 export { sessionHandler } from './sessionHandler';
-export { jwtStrategy } from './jwtStrategy';
+export { githubStrategy } from './githubStrategy';

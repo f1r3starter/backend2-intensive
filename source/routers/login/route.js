@@ -1,19 +1,5 @@
-import jwt from 'jsonwebtoken';
-import { ValidationError } from '../../utils/errors';
+export const get = (req, res) => res.render('login');
 
-export const post = (req, res) => {
-    try {
-        const { email } = req.body;
+export const post = (req, res, next) => next();
 
-        if (!email) {
-            throw new ValidationError('Email is required');
-        }
-
-        const token = jwt.sign({ email }, 'secret');
-
-        res.setHeader('x-token', token);
-        res.sendStatus(204);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
+export const callback = (req, res) => res.redirect('/');

@@ -1,6 +1,7 @@
-import passport from 'passport';
+export const authenticate = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
 
-export const authenticate = passport.authenticate(
-    'jwt',
-    { session: false },
-);
+    return res.sendStatus(401);
+};

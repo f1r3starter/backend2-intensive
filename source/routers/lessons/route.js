@@ -1,4 +1,7 @@
+import {ValidationError} from "../../utils/errors";
+
 export const get = (req, res) => {
+    throw new ValidationError('123');
     try {
         const data = {};
 
