@@ -4,7 +4,7 @@ import express from 'express';
 // Instruments
 import { get, post } from './route';
 import { getByHash, putByHash, deleteByHash } from './hash/route';
-import { limiter, validator, authorization } from '../../utils';
+import { limiter, validator, authenticate } from '../../utils';
 
 // Schema
 import { createUser } from '../../schemas';
@@ -12,10 +12,10 @@ import { createUser } from '../../schemas';
 export const router = express.Router();
 
 router.get('/', [ limiter(5, 60 * 1000) ], get);
-router.post('/', [ validator(createUser), authorization ], post);
+router.post('/', [ validator(createUser), authenticate ], post);
 
-router.get('/:userHash',  [ authorization ], getByHash);
-router.put('/:userHash', [ authorization ], putByHash);
-router.delete('/:userHash', [ authorization ], deleteByHash);
+router.get('/:userHash',  [ authenticate ], getByHash);
+router.put('/:userHash', [ authenticate ], putByHash);
+router.delete('/:userHash', [ authenticate ], deleteByHash);
 
 export { router as users };

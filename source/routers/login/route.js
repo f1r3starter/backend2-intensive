@@ -1,7 +1,5 @@
-export const post = (req, res) => {
-    try {
-        res.sendStatus(204);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
+export const get = (req, res) => res.render('login');
+
+export const post = (req, res, next) => next();
+
+export const callback = (req, res) => res.redirect('/');
