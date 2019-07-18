@@ -8,16 +8,7 @@ const defaultLogFormat = printf(({message: { error }}) => {
     return `${getDate()} ${error.name}: ${error.message}`;
 });
 
-const notFoundErrorLogFormat = printf(({message: { req }}) => {
-    return `${getDate()} ${req.method}: ${req.url}`;
-});
 
-const validationErrorFormat = printf(({message: { error, req }}) => {
-    const payload = JSON.stringify(req.body);
-    const errors = JSON.stringify(error.message);
-
-    return `${getDate()} ${req.method}: ${req.url} ${errors} \r\n ${payload}`;
-});
 
 const prepareLogger = (customFormat, logFileName) => createLogger({
     level:  'error',
